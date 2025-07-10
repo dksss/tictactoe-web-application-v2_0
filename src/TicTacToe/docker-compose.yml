@@ -1,0 +1,19 @@
+services:
+  postgres_db:
+    image: postgres:17-alpine
+    container_name: app_bd
+    env_file:
+      - secret_data.env
+    ports:
+      - "5454:5432"
+
+  app:
+    build: .
+    container_name: app
+    ports:
+      - "8080:8080"
+    env_file:
+      - secret_data.env
+    restart: unless-stopped
+    depends_on:
+      - postgres_db
